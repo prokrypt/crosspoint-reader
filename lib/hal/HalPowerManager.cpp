@@ -286,16 +286,20 @@ bool HalPowerManager::onEinkBusyWaitSlice(const int8_t busyPin, const uint8_t bu
 
 uint16_t HalPowerManager::getBatteryPercentage() const {
   static const BatteryMonitor battery;
+  LOG_DBG("PWR", "getBatteryPercentage() called");
   if (BoardConfig::ACTIVE.batteryGauge.gaugeAddr != 0) {
     const unsigned long now = millis();
     if (_batteryLastPollMs != 0 && (now - _batteryLastPollMs) < BATTERY_POLL_MS) {
+      LOG_DBG("PWR", "cached percentage not yet expired");
       return _batteryCachedPercent;
     }
 
     uint16_t percent = 0;
     if (!battery.readPercentageChecked(percent)) {
+      LOG_DBG("PWR", "battery percentage not read");
       return _batteryCachedPercent;
     }
+    LOG_DBG("PWR", "battery percentage has been read");
     _batteryCachedPercent = percent;
     _batteryLastPollMs = now;
     return _batteryCachedPercent;
