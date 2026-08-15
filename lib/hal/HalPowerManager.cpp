@@ -304,9 +304,11 @@ uint16_t HalPowerManager::getBatteryPercentage() const {
   // smooth the battery %.
   if (_batteryCachedPercent == 0) {
     _batteryCachedPercent = 10 * battery.readPercentage();
+    LOG_DBG("PWR", "Setting initial battery %");
   } else {
     _batteryCachedPercent = (_batteryCachedPercent * 9 + battery.readPercentage() * 10) / 10;
   }
+  LOG_DBG("PWR", "Returning battery %");
   return _batteryCachedPercent / 10;
 }
 
