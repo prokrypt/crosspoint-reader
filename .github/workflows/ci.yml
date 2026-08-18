@@ -71,7 +71,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        environment: [x4-pro, debug]
+        environment: [x4-pro, debug] 
     steps:
       - uses: actions/checkout@v6
         with:
