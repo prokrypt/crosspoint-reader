@@ -17,10 +17,12 @@ void HalFrontlight::begin(const uint8_t brightness, const uint8_t warmth, const 
 }
 
 void HalFrontlight::setBrightness(const uint8_t percent) {
-  lastBrightness = percent > 100 ? 100 : percent;
-  if (lit) {
-    manager.setBrightness(lastBrightness);
-  }
+    lastBrightness = percent > 100 ? 100 : percent;
+    if (lit) {
+        float normalized = lastBrightness / 100.0f;
+        float curvedPercent = powf(normalized, 2.0f) * 100.0f;
+        manager.setBrightness(curvedPercent);
+    }
 }
 
 void HalFrontlight::setWarmth(const uint8_t warmPercent) {
